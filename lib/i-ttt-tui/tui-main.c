@@ -37,6 +37,28 @@ uint8_t set_cursor_location_from_al(mouse_lan *mouse, const ui_btn arr[], const 
     return 0;
 }
 
+uint8_t set_cursor_location_from_xy(mouse_lan *mouse, const ui_btn arr[], const size_t x, const size_t y)
+{
+    enum
+    {
+        FOUND_AND_SET = 0,
+        NOT_FOUND = 1,
+        ERROR = 2
+    };
+    if(x == 0 || y == 0) return ERROR;
+    for(uint32_t i = 0; arr[i].x != 0; i++)
+    {
+        if(arr[i].x == x && arr[i].y == y)
+        {
+            mouse.x = x;
+            mouse.y = y;
+            mouse.arr_location = arr[i].arr_location;
+            return FOUND_AND_SET;
+        }
+    }
+    return NOT_FOUND;
+}
+
 int32_t move(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 {
     size_t next_location = 0;
