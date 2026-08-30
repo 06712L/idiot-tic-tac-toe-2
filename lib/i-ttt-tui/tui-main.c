@@ -31,10 +31,16 @@ bool get_a_key(char *buf, size_t buf_size, const char *key)
 
 uint8_t set_cursor_location_from_al(mouse_lan *mouse, const ui_btn arr[], const uint16_t arr_location)
 {
-    if(arr[arr_location].arr_location != arr_location) return 1;
+    enum
+    {
+        FOUND_AND_SET = 0,
+        ERROR = 1
+    };
+    if(arr[arr_location].arr_location != arr_location) return ERROR;
     mouse->x = arr[arr_location].x;
     mouse->y = arr[arr_location].y;
-    return 0;
+    mouse->arr_location = arr_location;
+    return FOUND_AND_SET;
 }
 
 uint8_t set_cursor_location_from_xy(mouse_lan *mouse, const ui_btn arr[], const size_t x, const size_t y)
@@ -61,6 +67,11 @@ uint8_t set_cursor_location_from_xy(mouse_lan *mouse, const ui_btn arr[], const 
 
 int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 {
+    enum
+    {
+        MOVE = 0,
+        CAN_T_MOVE = 1
+    };
     size_t next_location = 0;
     if(dir == right || dir == down) next_location = SIZE_MAX;
     uint16_t next_btn_al = 0;
@@ -116,7 +127,7 @@ int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
     {
         *mouse_apl = next_location;
         mouse->arr_location = next_btn_al;
-        return 0;
+        return MOVE;
     }
-    else return 1;
+    else return CAN_T_MOVE;
 }
