@@ -29,17 +29,54 @@ bool get_a_key(char *buf, size_t buf_size, const char *key)
     return true;
 }
 
-
-int right(ui_btn arr[], mouse_lan *mouse)
+int32_t move(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 {
-    size_t min_location = SIZE_MAX;
+    size_t next_location = 0;
+    if(dir == right || dir == down) next_location = SIZE_MAX;
     uint16_t next_btn_al = 0;
     bool have_btn = false;
+
+    size_t *mouse_apl = NULL;
+    size_t *mouse_va = NULL;
+    if(dir == up || dir == down)
+    {
+        mouse_apl = &mouse->y;
+        mouse_va = &mouse->x;
+    }
+    else
+    {
+        mouse_apl = &mouse->x;
+        mouse_va = &mouse->y;
+    }
+
     for(int i = 0; arr[i].x != 0; i++)
     {
-        if(arr[i].y == mouse->y && arr[i].x > mouse->x && arr[i].x < min_location)
+        size_t *va = NULL;
+        size_t *apl = NULL;
+        if(dir == up || dir == down)
         {
-            min_location = arr[i].x;
+            va = &arr[i].x;
+            apl = &arr[i].y;
+        }
+        else
+        {
+            va = &arr[i].y;
+            apl = &arr[i].x;
+        }
+
+        if(*va == *mouse_va)
+        {
+            if(dir == down || dir == right)
+            {
+                if(*apl < *mouse_apl) continue;
+                else if(*apl > next_location) continue;
+            }
+            else
+            {
+                if(*apl > *mouse_apl) continue;
+                else if(*apl < next_location) continue;
+            }
+            next_location = *apl;
             next_btn_al = arr[i].arr_location;
             have_btn = true;
         }
@@ -47,79 +84,7 @@ int right(ui_btn arr[], mouse_lan *mouse)
 
     if(have_btn)
     {
-        mouse->x = min_location;
-        mouse->arr_location = next_btn_al;
-        return 0;
-    }
-    else return 1;
-}
-
-int left(ui_btn arr[], mouse_lan *mouse)
-{
-    size_t max_location = 0;
-    uint16_t next_btn_al = 0;
-    bool have_btn = false;
-    for(int i = 0; arr[i].x != 0; i++)
-    {
-        if(arr[i].y == mouse->y && arr[i].x < mouse->x && arr[i].x > max_location)
-        {
-            max_location = arr[i].x;
-            next_btn_al = arr[i].arr_location;
-            have_btn = true;
-        }
-    }
-
-    if(have_btn)
-    {
-        mouse->x = max_location;
-        mouse->arr_location = next_btn_al;
-        return 0;
-    }
-    else return 1;
-}
-
-int up(ui_btn arr[], mouse_lan *mouse)
-{
-    size_t max_location = 0;
-    uint16_t next_btn_al = 0;
-    bool have_btn = false;
-    for(int i = 0; arr[i].x != 0; i++)
-    {
-        if(arr[i].x == mouse->x && arr[i].y < mouse->y && arr[i].y > max_location)
-        {
-            max_location = arr[i].y;
-            next_btn_al = arr[i].arr_location;
-            have_btn = true;
-        }
-    }
-
-    if(have_btn)
-    {
-        mouse->y = max_location;
-        mouse->arr_location = next_btn_al;
-        return 0;
-    }
-    else return 1;
-}
-
-int down(ui_btn arr[], mouse_lan *mouse)
-{
-    size_t min_location = SIZE_MAX;
-    uint16_t next_btn_al = 0;
-    bool have_btn = false;
-    for(int i = 0; arr[i].x != 0; i++)
-    {
-        if(arr[i].x == mouse->x && arr[i].y > mouse->y && arr[i].y < min_location)
-        {
-            min_location = arr[i].y;
-            next_btn_al = arr[i].arr_location;
-            have_btn = true;
-        }
-    }
-
-    if(have_btn)
-    {
-        mouse->y = min_location;
+        *mouse_apl = next_location;
         mouse->arr_location = next_btn_al;
         return 0;
     }

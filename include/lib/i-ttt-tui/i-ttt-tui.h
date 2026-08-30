@@ -18,4 +18,12 @@ typedef struct MOUSE_LOCATION
     size_t y;
 }mouse_lan;
 
+enum
+{
+    up,
+    down,
+    right,
+    left
+};
+
 #endif
