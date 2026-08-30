@@ -59,7 +59,7 @@ uint8_t set_cursor_location_from_xy(mouse_lan *mouse, const ui_btn arr[], const 
     return NOT_FOUND;
 }
 
-int32_t move(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
+int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 {
     size_t next_location = 0;
     if(dir == right || dir == down) next_location = SIZE_MAX;
