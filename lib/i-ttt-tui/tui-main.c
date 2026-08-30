@@ -29,6 +29,14 @@ bool get_a_key(char *buf, size_t buf_size, const char *key)
     return true;
 }
 
+uint8_t set_cursor_location_from_al(mouse_lan *mouse, const ui_btn arr[], const uint16_t arr_location)
+{
+    if(arr[arr_location].arr_location != arr_location) return 1;
+    mouse->x = arr[arr_location].x;
+    mouse->y = arr[arr_location].y;
+    return 0;
+}
+
 int32_t move(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 {
     size_t next_location = 0;
