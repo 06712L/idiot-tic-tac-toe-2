@@ -1,7 +1,6 @@
 #ifndef I_TTT_TUI_H
 #define I_TTT_TUI_H
 
-#include <cstddef>
 #include <stddef.h>
 
 typedef struct UI_BUTTON
@@ -9,6 +8,7 @@ typedef struct UI_BUTTON
     const unsigned short arr_location;
     const size_t x;
     const size_t y;
+    const char *name;
 }ui_btn;
 
 typedef struct MOUSE_LOCATION
