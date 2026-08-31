@@ -20,10 +20,10 @@ typedef struct MOUSE_LOCATION
 
 enum
 {
-    up,
-    down,
-    right,
-    left
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT
 };
 
 #endif

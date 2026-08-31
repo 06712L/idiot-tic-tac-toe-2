@@ -73,13 +73,13 @@ int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
         CAN_T_MOVE = 1
     };
     size_t next_location = 0;
-    if(dir == right || dir == down) next_location = SIZE_MAX;
+    if(dir == RIGHT || dir == DOWN) next_location = SIZE_MAX;
     uint16_t next_btn_al = 0;
     bool have_btn = false;
 
     size_t *mouse_apl = NULL;
     size_t *mouse_va = NULL;
-    if(dir == up || dir == down)
+    if(dir == UP || dir == DOWN)
     {
         mouse_apl = &mouse->y;
         mouse_va = &mouse->x;
@@ -94,7 +94,7 @@ int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
     {
         size_t *va = NULL;
         size_t *apl = NULL;
-        if(dir == up || dir == down)
+        if(dir == UP || dir == DOWN)
         {
             va = &arr[i].x;
             apl = &arr[i].y;
@@ -107,7 +107,7 @@ int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 
         if(*va == *mouse_va)
         {
-            if(dir == down || dir == right)
+            if(dir == DOWN || dir == RIGHT)
             {
                 if(*apl < *mouse_apl) continue;
                 else if(*apl > next_location) continue;
@@ -125,8 +125,7 @@ int32_t move_cursor(const ui_btn arr[], mouse_lan *mouse, const uint8_t dir)
 
     if(have_btn)
     {
-        *mouse_apl = next_location;
-        mouse->arr_location = next_btn_al;
+        set_cursor_location_from_al(mouse, arr, next_btn_al);
         return MOVE;
     }
     else return CAN_T_MOVE;
