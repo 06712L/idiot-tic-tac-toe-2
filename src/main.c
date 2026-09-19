@@ -33,7 +33,7 @@ static int parseArg(const int argc, const char *argv[])
         switch(rc)
         {
             case OPT_VERSION_VAL:
-                printf("Version: %s\nVersion code: %d", VERSION_NAME, VERSION_CODE);
+                printf("Version: %s\nVersion code: %d\n", VERSION_NAME, VERSION_CODE);
                 break;
         }
     }
@@ -49,7 +49,7 @@ static int parseArg(const int argc, const char *argv[])
     while(command != NULL)
     {
         //No Command now
-        fprintf(stderr, "No Commands now");
+        fprintf(stderr, "No Commands now\n");
         return ERROR_COMMANDS;
         //command = (char*)poptGetArg(optCon);
     }
