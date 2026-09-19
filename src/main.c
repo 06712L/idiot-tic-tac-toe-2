@@ -2,14 +2,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "ittt-info.h"
 
-int main(int argc, char *argv[])
+static int parseArg(const int argc, const char *argv[])
 {
-    bool ver_opt = false;
-    struct poptOption options[] =
+    enum
     {
-        {"version", 'v', POPT_ARG_NONE, &ver_opt, 0, "show version of i-TTT 2", NULL},
+        //ERROR code
+        ERROR_OPT = 1000,
+        ERROR_COMMANDS = 1001,
+    };
+    enum
+    {
+        //options return values
+        DONT_RETURN = 0, //DONT_RETURN means don't return, just update arg
+        OPT_VERSION_VAL,
+    };
+    struct poptOption optionsTable[] =
+    {
+        {"version", 'v', 0, NULL, OPT_VERSION_VAL, "show version of i-TTT 2", NULL},
         POPT_AUTOHELP
         POPT_TABLEEND
     };
+
+    poptContext optCon = poptGetContext("i-ttt_2", argc, argv, optionsTable, POPT_CONTEXT_NO_EXEC);
+    poptSetOtherOptionHelp(optCon, "[OPTIONS]...");
+
+    //start parse
+    int rc;
+    while((rc = poptGetNextOpt(optCon)) >= 0)
+    {
+        switch(rc)
+        {
+            case OPT_VERSION_VAL:
+                printf("Version: %s\nVersion code: %d", VERSION_NAME, VERSION_CODE);
+                break;
+        }
+    }
+    if(rc < -1)
+    {
+        poptPrintUsage(optCon, stderr, 0);
+        poptFreeContext(optCon);
+        return ERROR_OPT;
+    }
+
+    //parse Commands
+    char *command = (char*)poptGetArg(optCon);
+    while(command != NULL)
+    {
+        //No Command now
+        fprintf(stderr, "No Commands now");
+        return ERROR_COMMANDS;
+        //command = (char*)poptGetArg(optCon);
+    }
+
+    poptFreeContext(optCon);
+    return 0;
+}
+
+int main(const int argc, const char *argv[])
+{
+    const int parseArgReturnCode = parseArg(argc, argv);
+    if(parseArgReturnCode) return parseArgReturnCode;
+    int returnVal = 0;
+    //a function is needed in this line...
+
+    return returnVal;
 }
