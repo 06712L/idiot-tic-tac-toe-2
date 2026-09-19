@@ -11,9 +11,7 @@ static int parseArg(const int argc, const char *argv[])
         //ERROR code
         ERROR_OPT = 1000,
         ERROR_COMMANDS = 1001,
-    };
-    enum
-    {
+
         //options return values
         DONT_RETURN = 0, //DONT_RETURN means don't return, just update arg
         OPT_VERSION_VAL,
