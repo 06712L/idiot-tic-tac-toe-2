@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "ittt-info.h"
+#include "include/ittt-info.h"
 
 static int parseArg(const int argc, const char *argv[])
 {
