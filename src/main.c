@@ -60,10 +60,9 @@ static int parseArg(const int argc, const char *argv[])
 
 int main(const int argc, const char *argv[])
 {
-    const int parseArgReturnCode = parseArg(argc, argv);
-    if(parseArgReturnCode) return parseArgReturnCode;
-    int returnVal = 0;
-    //a function is needed in this line...
+    int returnVal = parseArg(argc, argv);
+    if(returnVal) return returnVal;
+    //returnVal = a function is needed at this line...
 
     return returnVal;
 }
