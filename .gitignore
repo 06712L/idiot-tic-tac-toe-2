@@ -1,3 +1,6 @@
 # XMake cache
 .xmake/
 build/
+
+# VS code cache
+.vscode/
