@@ -1,8 +1,10 @@
 #include <popt.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "include/ittt-info.h"
+#include "include/main.h"
 
 static int parseArg(const int argc, const char *argv[])
 {
@@ -58,10 +60,16 @@ static int parseArg(const int argc, const char *argv[])
     return 0;
 }
 
-int main(const int argc, const char *argv[])
+static inline bool checkReturnVal(int32_t returnVal)
 {
-    int returnVal = parseArg(argc, argv);
-    if(returnVal) return returnVal;
+    if(returnVal == CONTINUE_RUN) return false;
+    else return true;
+}
+
+int32_t main(const int argc, const char *argv[])
+{
+    int32_t returnVal = parseArg(argc, argv);
+    if(checkReturnVal(returnVal)) return returnVal;
     //returnVal = a function is needed at this line...
 
     return returnVal;
