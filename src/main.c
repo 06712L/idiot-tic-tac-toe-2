@@ -8,6 +8,7 @@
 
 static int parseArg(const int argc, const char *argv[])
 {
+    bool returnZero = false;
     enum
     {
         //ERROR code
@@ -32,11 +33,15 @@ static int parseArg(const int argc, const char *argv[])
     int rc;
     while((rc = poptGetNextOpt(optCon)) >= 0)
     {
-        switch(rc)
+        if(!rc) returnZero = true;
+        else
         {
-            case OPT_VERSION_VAL:
-                printf("Version: %s\nVersion code: %d\n", VERSION_NAME, VERSION_CODE);
-                break;
+            switch(rc)
+            {
+                case OPT_VERSION_VAL:
+                    printf("Version: %s\nVersion code: %d\n", VERSION_NAME, VERSION_CODE);
+                    break;
+            }
         }
     }
     if(rc < -1)
@@ -57,7 +62,8 @@ static int parseArg(const int argc, const char *argv[])
     }
 
     poptFreeContext(optCon);
-    return 0;
+    if(returnZero) return 0;
+    else return CONTINUE_RUN;
 }
 
 static inline bool checkReturnVal(int32_t returnVal)
