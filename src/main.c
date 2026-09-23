@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "include/ittt-info.h"
 #include "include/main.h"
+#include "include/menu.h"
 
 static int parseArg(const int argc, const char *argv[])
 {
@@ -76,7 +77,9 @@ int32_t main(const int argc, const char *argv[])
 {
     int32_t returnVal = parseArg(argc, argv);
     if(checkReturnVal(returnVal)) return returnVal;
-    //returnVal = a function is needed at this line...
+
+    returnVal = intoMenu();
+    if(checkReturnVal(returnVal)) return returnVal;
 
     return returnVal;
 }
