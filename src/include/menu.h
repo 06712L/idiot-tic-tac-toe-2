@@ -2,6 +2,6 @@
 #define MENU_H
 
 //main menu
-int intoMenu(void);
+int into_menu(void);
 
 #endif

@@ -3,12 +3,12 @@
 #include <stdint.h>
 #include <unistd.h>
 
-int32_t mainMenu(struct notcurses_values nc_values)
+int32_t main_menu(struct notcurses_values nc_values)
 {
     //Some code is needed in the function...
 }
 
-int32_t intoMenu(void)
+int32_t into_menu(void)
 {
     struct notcurses_values nc_values;
     nc_values.options =

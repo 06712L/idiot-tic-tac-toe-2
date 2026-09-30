@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "include/ittt-info.h"
+#include "include/ittt_info.h"
 #include "include/main.h"
 #include "include/menu.h"
 
-static int parseArg(const int argc, const char *argv[])
+static int parse_arg(const int argc, const char *argv[])
 {
-    bool returnZero = false;
+    bool return_zero = false;
     enum
     {
         //ERROR code
@@ -20,21 +20,21 @@ static int parseArg(const int argc, const char *argv[])
         DONT_RETURN = 0, //DONT_RETURN means don't return, just update arg
         OPT_VERSION_VAL,
     };
-    struct poptOption optionsTable[] =
+    struct poptOption options_table[] =
     {
         {"version", 'v', 0, NULL, OPT_VERSION_VAL, "show version of i-TTT 2", NULL},
         POPT_AUTOHELP
         POPT_TABLEEND
     };
 
-    poptContext optCon = poptGetContext("i-ttt_2", argc, argv, optionsTable, POPT_CONTEXT_NO_EXEC);
-    poptSetOtherOptionHelp(optCon, "[OPTIONS]...");
+    poptContext opt_con = poptGetContext("i-ttt_2", argc, argv, options_table, POPT_CONTEXT_NO_EXEC);
+    poptSetOtherOptionHelp(opt_con, "[OPTIONS]...");
 
     //start parse
     int rc;
-    while((rc = poptGetNextOpt(optCon)) >= 0)
+    while((rc = poptGetNextOpt(opt_con)) >= 0)
     {
-        if(!rc) returnZero = true;
+        if(!rc) return_zero = true;
         else
         {
             switch(rc)
@@ -47,13 +47,13 @@ static int parseArg(const int argc, const char *argv[])
     }
     if(rc < -1)
     {
-        poptPrintUsage(optCon, stderr, 0);
-        poptFreeContext(optCon);
+        poptPrintUsage(opt_con, stderr, 0);
+        poptFreeContext(opt_con);
         return ERROR_OPT;
     }
 
     //parse Commands
-    char *command = (char*)poptGetArg(optCon);
+    char *command = (char*)poptGetArg(opt_con);
     while(command != NULL)
     {
         //No Command now
@@ -62,24 +62,24 @@ static int parseArg(const int argc, const char *argv[])
         //command = (char*)poptGetArg(optCon);
     }
 
-    poptFreeContext(optCon);
-    if(returnZero) return 0;
+    poptFreeContext(opt_con);
+    if(return_zero) return 0;
     else return CONTINUE_RUN;
 }
 
-static inline bool checkReturnVal(int32_t returnVal)
+static inline bool check_return_val(int32_t return_val)
 {
-    if(returnVal == CONTINUE_RUN) return false;
+    if(return_val == CONTINUE_RUN) return false;
     else return true;
 }
 
 int32_t main(const int argc, const char *argv[])
 {
-    int32_t returnVal = parseArg(argc, argv);
-    if(checkReturnVal(returnVal)) return returnVal;
+    int32_t return_val = parse_arg(argc, argv);
+    if(check_return_val(return_val)) return return_val;
 
-    returnVal = intoMenu();
-    if(checkReturnVal(returnVal)) return returnVal;
+    return_val = into_menu();
+    if(check_return_val(return_val)) return return_val;
 
-    return returnVal;
+    return return_val;
 }
